@@ -188,4 +188,4 @@ invader2_positions.each do |position|
   end
 end
 
-puts positions.map(&:join)
+puts invaders_positions.map(&:join)
