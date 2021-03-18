@@ -22,28 +22,6 @@ INVADER2 = <<~INVADER_2
   o-o--o-o
 INVADER_2
 
-[
-  %w[- - o - - - - - o - -],
-  %w[- - - - - - - o - - -],
-  %w[- - o o o o - o o - -],
-  %w[- - - - o o o - o o -],
-  %w[o - - o o o o o o - o],
-  %w[o - o - o o o o o - o],
-  %w[o - o - - - - - o - o],
-  %w[- - - o o - o o - - -]
-].freeze
-
-[
-  %w[- - - o o - - -],
-  %w[- - o o o - o -],
-  %w[- - o o o o o -],
-  %w[o o - - o - o o],
-  %w[o o - o o o o o],
-  %w[- - - - - o - -],
-  %w[o o - o o - o -],
-  %w[o - o - - o o o]
-].freeze
-
 RADAR = <<~RADAR_S
   ----o--oo----o--ooo--ooo--o------o---oo-o----oo---o--o---------o----o------o-------------o--o--o--o-
   --o-o-----oooooooo-oooooo---o---o----o------ooo-o---o--o----o------o--o---ooo-----o--oo-o------o----
@@ -97,22 +75,9 @@ RADAR = <<~RADAR_S
   -----o----------ooooooooo--------------oo--------------oo-----o-----o-o--o------o----------o----o---
 RADAR_S
 
-# This should be a dynamic parameter
+# This should be a dynamic parameter or calculate it dynamically
+# by determining if the invaders are overlapping each other
 SENSITIVITY = 16
-
-# Moving thorugh the radar one invader chunk by one
-# radar_arr = RADAR.split("\n").map { |rad| rad.split('') }
-# invader1_arr = INVADER1.split("\n").map { |invader| invader.split('') }
-# invader2_arr = INVADER2.split("\n").map { |invader| invader.split('') }
-# rad_chunk = radar_arr[0].slice(0, 11)
-# inv1_chunk = invader1_arr[0]
-# inv2_chunk = invader2_arr[0]
-#
-# p rad_chunk
-# puts
-# p inv1_chunk
-# puts
-# p inv2_chunk
 
 # TODO: Find a solution for differences that come from "noise"
 
@@ -139,13 +104,6 @@ class ImageWalker
   def initialize(radar, invader)
     @radar = radar
     @invader = invader
-  end
-
-  # rows_range -> 0..invader.rows.size
-  # columns_range -> 0..invader.columns.size
-  # calculate index position for the above
-  def chunk(rows_range, columns_range)
-    rows[rows_range].map { |arr| arr[columns_range] }
   end
 
   def walk
@@ -188,14 +146,6 @@ class ImageWalker
 
     diff.filter(&:!).size
   end
-
-  def difference2(arr1, arr2)
-    [].tap do |arr|
-      arr1.zip(arr2).each do |s1, s2|
-        arr << s1 if s1 != s2
-      end
-    end.size
-  end
 end
 
 class Position
@@ -221,8 +171,21 @@ radar = ImageMatrix.new(RADAR)
 image_walker1 = ImageWalker.new(radar, invader1)
 image_walker2 = ImageWalker.new(radar, invader2)
 
-positions1 = image_walker1.walk
-positions2 = image_walker2.walk
+invader1_positions = image_walker1.walk
+invader2_positions = image_walker2.walk
 
-# TODO: Go through all positions and record them in the Matrix
-radar.rows[positions2.first[:y].range].map { |col| col[positions2.first[:x].range] }
+invaders_positions = Array.new(50) { |_ix| Array.new(100) { |_iy| '-' } }
+
+invader1_positions.each do |position|
+  invaders_positions[position[:y].range].each_with_index do |row, index|
+    row[position[:x].range] = invader1.rows[index]
+  end
+end
+
+invader2_positions.each do |position|
+  invaders_positions[position[:y].range].each_with_index do |row, index|
+    row[position[:x].range] = invader2.rows[index]
+  end
+end
+
+puts positions.map(&:join)
