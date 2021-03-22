@@ -4,7 +4,7 @@
 
 require './lib/initial_data'
 require './lib/position'
-require './lib/coordinates'
+require './lib/coordinate'
 require './lib/image_matrix'
 require './lib/image_walker'
 require './lib/services/output_service'

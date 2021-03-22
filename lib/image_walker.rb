@@ -17,8 +17,8 @@ class ImageWalker
           right_boundary = ix + (invader.cols_size - 1)
 
           radar_segment = radar.rows[iy..bottom_boundary].map { |col| col[ix..right_boundary] }
-          rows = Coordinates.new(iy..bottom_boundary)
-          columns = Coordinates.new(ix..right_boundary)
+          rows = Coordinate.new(iy..bottom_boundary)
+          columns = Coordinate.new(ix..right_boundary)
 
           new_position = Position.new(rows, columns)
           positions << new_position if match?(radar_segment)

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Coordinates
+class Coordinate
   attr_reader :range
 
   def initialize(range)
