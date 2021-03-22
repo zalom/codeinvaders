@@ -1,6 +1,22 @@
 # About Code Invaders
 
+Requirements:
 - Ruby 2.6.5
+- RSpec
+
+Run the app with ->
+```bash
+$ ./app.rb
+```
+or
+```bash
+$ ruby app.rb
+```
+
+Run the specs with ->
+```bash
+$ bundle exec rspec
+```
 
 # Development assignment
 
