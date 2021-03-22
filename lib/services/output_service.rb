@@ -25,7 +25,7 @@ class OutputService
   private
 
   def empty_matrix
-    @empty_matrix ||= Array.new(50) { |_ix| Array.new(100) { |_iy| '-' } }
+    @empty_matrix ||= Array.new(radar.rows.size) { |_ix| Array.new(radar.columns.size) { |_iy| '-' } }
   end
 
   def record_positions(invader, invader_positions, matrix)

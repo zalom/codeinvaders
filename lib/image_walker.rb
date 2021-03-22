@@ -42,7 +42,7 @@ class ImageWalker
 
   def difference(arr1, arr2)
     diff = arr1.each_with_index.map do |el, ix|
-      el != arr2[ix] ? nil : el
+      el == arr2[ix] ? el : nil
     end
 
     diff.filter(&:!).size
