@@ -27,6 +27,8 @@ class ImageWalker
     end
   end
 
+  private
+
   def match?(radar_segment)
     rows_difference(radar_segment) <= max_error_tolerance
   end
